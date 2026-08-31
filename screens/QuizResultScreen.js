@@ -1,4 +1,40 @@
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { getTopic, findKing } from '../content/registry';
+
+function RelatedContentLinks({ question, navigation }) {
+  const topics = (question.relatedTopics || []).map((id) => getTopic(id)).filter(Boolean);
+  const kings = (question.relatedKings || [])
+    .map((rk) => {
+      const king = findKing(rk.dynasty, rk.order);
+      return king ? { ...rk, king } : null;
+    })
+    .filter(Boolean);
+
+  if (topics.length === 0 && kings.length === 0) return null;
+
+  return (
+    <View style={s.relatedRow}>
+      {topics.map((t) => (
+        <TouchableOpacity
+          key={t.id}
+          style={s.relatedChip}
+          onPress={() => navigation.navigate('TopicDetail', { id: t.id })}
+        >
+          <Text style={s.relatedChipText}>📖 {t.title}</Text>
+        </TouchableOpacity>
+      ))}
+      {kings.map((k) => (
+        <TouchableOpacity
+          key={`${k.dynasty}-${k.order}`}
+          style={s.relatedChip}
+          onPress={() => navigation.navigate('KingDetail', { dynasty: k.dynasty, order: k.order })}
+        >
+          <Text style={s.relatedChipText}>📖 {k.king.name}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+}
 
 export default function QuizResultScreen({ route, navigation }) {
   const { results, mode, level } = route.params;
@@ -23,6 +59,7 @@ export default function QuizResultScreen({ route, navigation }) {
                 정답: {r.question.answerIndex + 1}. {r.question.choices[r.question.answerIndex]}
               </Text>
             )}
+            <RelatedContentLinks question={r.question} navigation={navigation} />
           </View>
         ))}
 
@@ -75,6 +112,17 @@ const s = StyleSheet.create({
   resultIndex: { fontSize: 14, fontWeight: '700', color: '#5a5142', marginBottom: 6 },
   resultQuestion: { fontSize: 16, color: '#2b2118', lineHeight: 23 },
   resultAnswer: { fontSize: 15, color: '#a8471f', marginTop: 8, fontWeight: '600' },
+
+  relatedRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 },
+  relatedChip: {
+    backgroundColor: '#fff8ee',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#b8912f',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  relatedChipText: { fontSize: 13, fontWeight: '700', color: '#b8912f' },
 
   btnRow: { flexDirection: 'row', gap: 12, marginTop: 20 },
   btnPrimary: { flex: 1, backgroundColor: '#a83c32', borderRadius: 14, paddingVertical: 16, alignItems: 'center' },

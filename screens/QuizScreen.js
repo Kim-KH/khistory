@@ -2,6 +2,43 @@ import { useMemo, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
 import { buildQuizSet, getQuestionsByIds } from '../content/quizRegistry';
 import { useWrongAnswers } from '../content/useWrongAnswers';
+import { getTopic, findKing } from '../content/registry';
+
+function RelatedContentLinks({ question, navigation }) {
+  const topics = (question.relatedTopics || []).map((id) => getTopic(id)).filter(Boolean);
+  const kings = (question.relatedKings || [])
+    .map((rk) => {
+      const king = findKing(rk.dynasty, rk.order);
+      return king ? { ...rk, king } : null;
+    })
+    .filter(Boolean);
+
+  if (topics.length === 0 && kings.length === 0) return null;
+
+  return (
+    <View style={s.relatedBox}>
+      <Text style={s.relatedTitle}>📖 관련 내용 보기</Text>
+      {topics.map((t) => (
+        <TouchableOpacity
+          key={t.id}
+          style={s.relatedBtn}
+          onPress={() => navigation.navigate('TopicDetail', { id: t.id })}
+        >
+          <Text style={s.relatedBtnText}>{t.title}</Text>
+        </TouchableOpacity>
+      ))}
+      {kings.map((k) => (
+        <TouchableOpacity
+          key={`${k.dynasty}-${k.order}`}
+          style={s.relatedBtn}
+          onPress={() => navigation.navigate('KingDetail', { dynasty: k.dynasty, order: k.order })}
+        >
+          <Text style={s.relatedBtnText}>{k.king.name}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+}
 
 export default function QuizScreen({ route, navigation }) {
   const { level, mode } = route.params || {};
@@ -105,6 +142,8 @@ export default function QuizScreen({ route, navigation }) {
           </View>
         )}
 
+        {selected !== null && <RelatedContentLinks question={current} navigation={navigation} />}
+
         {selected !== null && (
           <TouchableOpacity style={s.nextBtn} onPress={next}>
             <Text style={s.nextBtnText}>{isLast ? '결과 보기' : '다음 문제'}</Text>
@@ -158,6 +197,19 @@ const s = StyleSheet.create({
   },
   explainLabel: { fontSize: 16, fontWeight: '800', color: '#2b2118', marginBottom: 8 },
   explainText: { fontSize: 16, color: '#5a5142', lineHeight: 24 },
+
+  relatedBox: { marginTop: 14 },
+  relatedTitle: { fontSize: 15, fontWeight: '700', color: '#7a6f5d', marginBottom: 8 },
+  relatedBtn: {
+    backgroundColor: '#fff8ee',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#b8912f',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginBottom: 8,
+  },
+  relatedBtnText: { fontSize: 15, fontWeight: '700', color: '#b8912f' },
 
   nextBtn: {
     backgroundColor: '#a83c32', borderRadius: 14,
