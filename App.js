@@ -10,6 +10,9 @@ import HotCornerListScreen from './screens/HotCornerListScreen';
 import HotCornerDetailScreen from './screens/HotCornerDetailScreen';
 import TopicListScreen from './screens/TopicListScreen';
 import TopicDetailScreen from './screens/TopicDetailScreen';
+import QuizHomeScreen from './screens/QuizHomeScreen';
+import QuizScreen from './screens/QuizScreen';
+import QuizResultScreen from './screens/QuizResultScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +30,9 @@ export default function App() {
           <Stack.Screen name="HotCornerDetail" component={HotCornerDetailScreen} />
           <Stack.Screen name="TopicList" component={TopicListScreen} />
           <Stack.Screen name="TopicDetail" component={TopicDetailScreen} />
+          <Stack.Screen name="QuizHome" component={QuizHomeScreen} />
+          <Stack.Screen name="Quiz" component={QuizScreen} />
+          <Stack.Screen name="QuizResult" component={QuizResultScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

@@ -63,6 +63,16 @@ export default function HomeScreen({ navigation }) {
                   )}
                 </TouchableOpacity>
 
+                <TouchableOpacity
+                  style={s.quizCard}
+                  onPress={() => navigation.navigate('QuizHome')}
+                  activeOpacity={0.85}
+                >
+                  <Text style={s.quizBadge}>📝 문제풀이</Text>
+                  <Text style={s.quizTitle}>한국사능력검정시험 대비 문제 풀어보기</Text>
+                  <Text style={s.quizDesc}>기본·심화 난이도 · 오답노트 자동 저장</Text>
+                </TouchableOpacity>
+
                 <View style={s.modeTabs}>
                   <TouchableOpacity
                     style={[s.modeTab, mode === 'era' && s.modeTabActive]}
@@ -216,6 +226,16 @@ const s = StyleSheet.create({
   hotBadge: { fontSize: 14, fontWeight: '700', color: '#ffe3b3', marginBottom: 8 },
   hotTitle: { fontSize: 20, fontWeight: '800', color: '#fff8ee', lineHeight: 27 },
   hotDesc: { fontSize: 14, color: '#f3d9cf', marginTop: 8, lineHeight: 20 },
+
+  quizCard: {
+    backgroundColor: '#3d6b4a',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
+  },
+  quizBadge: { fontSize: 14, fontWeight: '700', color: '#cfe8d6', marginBottom: 8 },
+  quizTitle: { fontSize: 19, fontWeight: '800', color: '#fff8ee', lineHeight: 26 },
+  quizDesc: { fontSize: 14, color: '#d7ecdc', marginTop: 8 },
 
   modeTabs: { flexDirection: 'row', gap: 8, marginBottom: 22 },
   modeTab: {
