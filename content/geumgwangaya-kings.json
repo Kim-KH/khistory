@@ -1,0 +1,105 @@
+{
+  "_meta": {
+    "title": "금관가야 10왕",
+    "sourceNote": "삼국유사 '가락국기'에 전하는 전통 기년(전승 연대)을 따름 — 삼국사기 기반의 다른 왕조들과 달리 사료 자체의 신뢰도가 낮은 편. 특히 시조 수로왕의 재위 157년은 명백히 신화적 과장이며 실제 재위 기간으로 보기 어려움. 그럼에도 10대 구형왕이 532년 신라에 항복했다는 것과 그 후손이 김유신 가문이라는 것은 비교적 확실한 역사적 사실임.",
+    "verifiedBy": "AI 초안 + WebSearch 교차검증 (2026-08-31). 연대의 사료적 신뢰도가 다른 왕조보다 낮음 — 사용자 검토 시 특히 유의.",
+    "count": 10
+  },
+  "kings": [
+    {
+      "order": 1, "name": "수로왕", "personalName": "김수로",
+      "reignStart": 42, "reignEnd": 199,
+      "oneLiner": "알에서 태어났다는 설화로 전해지는 금관가야의 건국 시조.",
+      "keyFacts": [
+        "삼국유사 '가락국기'에 따르면 하늘에서 내려온 황금알에서 태어나 42년 금관가야(김해 지역)를 세웠다고 전해진다.",
+        "인도 아유타국의 공주였다는 허황옥과 혼인했다는 설화가 전해지며, 김해 김씨와 김해 허씨의 시조로 여겨진다.",
+        "157년이라는 전승 재위 기간은 한 사람의 실제 재위로 보기는 어려워, 신화적 과장이 섞인 것으로 본다."
+      ],
+      "succession": "하늘에서 내려왔다는 설화로 나라를 세움 — 금관가야 최초의 왕.",
+      "importance": 3, "keyword": "금관가야건국"
+    },
+    {
+      "order": 2, "name": "거등왕", "personalName": "거등",
+      "reignStart": 199, "reignEnd": 253,
+      "oneLiner": "수로왕의 뒤를 이은 왕.",
+      "keyFacts": [
+        "수로왕과 허황옥 사이에서 태어난 아들로 전해진다."
+      ],
+      "succession": "아버지 수로왕의 아들로 왕위 계승."
+    },
+    {
+      "order": 3, "name": "마품왕", "personalName": "마품",
+      "reignStart": 253, "reignEnd": 291,
+      "oneLiner": "기록이 소략한 왕.",
+      "keyFacts": [
+        "재위 기간에 대한 상세 기록이 많이 남아있지 않다."
+      ],
+      "succession": "아버지 거등왕의 아들로 왕위 계승."
+    },
+    {
+      "order": 4, "name": "거질미왕", "personalName": "거질미",
+      "reignStart": 291, "reignEnd": 346,
+      "oneLiner": "기록이 소략한 왕.",
+      "keyFacts": [
+        "재위 기간에 대한 상세 기록이 많이 남아있지 않다."
+      ],
+      "succession": "아버지 마품왕의 아들로 왕위 계승."
+    },
+    {
+      "order": 5, "name": "이시품왕", "personalName": "이시품",
+      "reignStart": 346, "reignEnd": 407,
+      "oneLiner": "가야가 철 생산으로 번영하던 시기의 왕.",
+      "keyFacts": [
+        "이 무렵 금관가야는 낙동강 하류의 뛰어난 철 생산지로 주변국·왜와 활발히 교역했다."
+      ],
+      "succession": "아버지 거질미왕의 아들로 왕위 계승."
+    },
+    {
+      "order": 6, "name": "좌지왕", "personalName": "좌지",
+      "reignStart": 407, "reignEnd": 421,
+      "oneLiner": "기록이 소략한 왕.",
+      "keyFacts": [
+        "재위 기간에 대한 상세 기록이 많이 남아있지 않다."
+      ],
+      "succession": "아버지 이시품왕의 아들로 왕위 계승."
+    },
+    {
+      "order": 7, "name": "취희왕", "personalName": "취희",
+      "reignStart": 421, "reignEnd": 451,
+      "oneLiner": "기록이 소략한 왕.",
+      "keyFacts": [
+        "재위 기간에 대한 상세 기록이 많이 남아있지 않다."
+      ],
+      "succession": "아버지 좌지왕의 아들로 왕위 계승."
+    },
+    {
+      "order": 8, "name": "질지왕", "personalName": "질지",
+      "reignStart": 451, "reignEnd": 492,
+      "oneLiner": "금관가야 세력이 점차 위축되던 시기의 왕.",
+      "keyFacts": [
+        "이 무렵부터 가야 연맹의 주도권이 점차 대가야 쪽으로 옮겨갔다고 여겨진다."
+      ],
+      "succession": "아버지 취희왕의 아들로 왕위 계승."
+    },
+    {
+      "order": 9, "name": "겸지왕", "personalName": "겸지",
+      "reignStart": 492, "reignEnd": 521,
+      "oneLiner": "금관가야 마지막 시기의 왕.",
+      "keyFacts": [
+        "신라·백제의 세력 확장 속에서 금관가야의 입지가 계속 좁아졌다."
+      ],
+      "succession": "아버지 질지왕의 아들로 왕위 계승."
+    },
+    {
+      "order": 10, "name": "구형왕", "personalName": "구형",
+      "reignStart": 521, "reignEnd": 532,
+      "oneLiner": "금관가야의 마지막 왕 — 신라에 항복했다.",
+      "keyFacts": [
+        "532년 신라 법흥왕에게 항복하며 금관가야가 멸망했다.",
+        "항복 후에도 신라 진골 귀족으로 편입되어 예우를 받았으며, 그 증손자가 삼국통일에 큰 공을 세운 김유신이다."
+      ],
+      "succession": "아버지 겸지왕의 아들로 왕위 계승 — 금관가야의 마지막 왕.",
+      "importance": 2, "keyword": "금관가야멸망"
+    }
+  ]
+}
