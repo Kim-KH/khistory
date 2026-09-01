@@ -37,15 +37,18 @@ function RelatedContentLinks({ question, navigation }) {
 }
 
 export default function QuizResultScreen({ route, navigation }) {
-  const { results, mode, level } = route.params;
+  const { results, mode, level, timeUp } = route.params;
   const correctCount = results.filter((r) => r.correct).length;
   const total = results.length;
   const percent = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+  const badgeLabel =
+    mode === 'wrong' ? '📌 오답노트 다시 풀기' : mode === 'mock' ? `⏱ ${level} 모의고사` : `📝 ${level} 문제풀이`;
 
   return (
     <SafeAreaView style={s.safe}>
       <ScrollView contentContainerStyle={s.scroll}>
-        <Text style={s.badge}>{mode === 'wrong' ? '📌 오답노트 다시 풀기' : `📝 ${level} 문제풀이`} 결과</Text>
+        <Text style={s.badge}>{badgeLabel} 결과</Text>
+        {timeUp && <Text style={s.timeUpNote}>⏱ 제한 시간이 끝나 자동으로 제출됐어요.</Text>}
         <Text style={s.scoreBig}>{correctCount} / {total}</Text>
         <Text style={s.scorePercent}>{percent}점</Text>
 
@@ -75,6 +78,8 @@ export default function QuizResultScreen({ route, navigation }) {
             onPress={() => {
               if (mode === 'wrong') {
                 navigation.replace('Quiz', { mode: 'wrong' });
+              } else if (mode === 'mock') {
+                navigation.replace('Quiz', { mode: 'mock', level });
               } else {
                 navigation.replace('Quiz', { level });
               }
@@ -96,6 +101,7 @@ const s = StyleSheet.create({
   },
   scroll: { padding: 24, paddingBottom: 56 },
   badge: { fontSize: 15, fontWeight: '700', color: '#a83c32', marginBottom: 12 },
+  timeUpNote: { fontSize: 14, fontWeight: '700', color: '#a83c32', marginBottom: 8 },
   scoreBig: { fontSize: 48, fontWeight: '800', color: '#2b2118', textAlign: 'center' },
   scorePercent: { fontSize: 20, fontWeight: '700', color: '#b8912f', textAlign: 'center', marginTop: 4, marginBottom: 28 },
 

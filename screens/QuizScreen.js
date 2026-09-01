@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
-import { buildQuizSet, getQuestionsByIds } from '../content/quizRegistry';
+import { buildQuizSet, buildMockExam, getQuestionsByIds, MOCK_EXAM_MINUTES } from '../content/quizRegistry';
 import { useWrongAnswers } from '../content/useWrongAnswers';
 import { getTopic, findKing } from '../content/registry';
 
@@ -42,10 +42,12 @@ function RelatedContentLinks({ question, navigation }) {
 
 export default function QuizScreen({ route, navigation }) {
   const { level, mode } = route.params || {};
+  const isMock = mode === 'mock';
   const { wrongIds, markWrong, markCorrect } = useWrongAnswers();
 
   const questions = useMemo(() => {
     if (mode === 'wrong') return getQuestionsByIds(wrongIds);
+    if (isMock) return buildMockExam(level);
     return buildQuizSet(level, 10);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -53,6 +55,28 @@ export default function QuizScreen({ route, navigation }) {
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [results, setResults] = useState([]); // { question, selectedIndex, correct }
+  const resultsRef = useRef(results);
+  const [secondsLeft, setSecondsLeft] = useState(isMock ? MOCK_EXAM_MINUTES[level] * 60 : null);
+  const submittedRef = useRef(false);
+
+  useEffect(() => {
+    if (!isMock) return;
+    const timer = setInterval(() => {
+      setSecondsLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          if (!submittedRef.current) {
+            submittedRef.current = true;
+            navigation.replace('QuizResult', { results: resultsRef.current, mode, level, timeUp: true });
+          }
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const current = questions[index];
   const isLast = index === questions.length - 1;
@@ -76,11 +100,16 @@ export default function QuizScreen({ route, navigation }) {
     const correct = choiceIndex === current.answerIndex;
     if (correct) markCorrect(current.id);
     else markWrong(current.id);
-    setResults((prev) => [...prev, { question: current, selectedIndex: choiceIndex, correct }]);
+    setResults((prev) => {
+      const updated = [...prev, { question: current, selectedIndex: choiceIndex, correct }];
+      resultsRef.current = updated;
+      return updated;
+    });
   }
 
   function next() {
     if (isLast) {
+      submittedRef.current = true;
       navigation.replace('QuizResult', { results, mode, level });
       return;
     }
@@ -98,6 +127,11 @@ export default function QuizScreen({ route, navigation }) {
           <Text style={s.backText}>← 그만하기</Text>
         </TouchableOpacity>
         <Text style={s.progress}>{index + 1} / {questions.length}</Text>
+        {isMock && secondsLeft !== null && (
+          <Text style={[s.timer, secondsLeft <= 300 && s.timerUrgent]}>
+            ⏱ {String(Math.floor(secondsLeft / 60)).padStart(2, '0')}:{String(secondsLeft % 60).padStart(2, '0')}
+          </Text>
+        )}
       </View>
 
       <ScrollView contentContainerStyle={s.scroll}>
@@ -167,6 +201,8 @@ const s = StyleSheet.create({
   backBtn: { paddingVertical: 8, paddingHorizontal: 4 },
   backText: { fontSize: 16, fontWeight: '700', color: '#a8471f' },
   progress: { fontSize: 16, fontWeight: '700', color: '#7a6f5d' },
+  timer: { fontSize: 16, fontWeight: '800', color: '#4a7c59' },
+  timerUrgent: { color: '#a83c32' },
 
   scroll: { padding: 24, paddingBottom: 56 },
   levelTag: {

@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
-import { getCountByLevel, getTotalCount } from '../content/quizRegistry';
+import { getCountByLevel, getTotalCount, MOCK_EXAM_TOTAL, MOCK_EXAM_MINUTES } from '../content/quizRegistry';
 import { useWrongAnswers } from '../content/useWrongAnswers';
 
 export default function QuizHomeScreen({ navigation }) {
@@ -37,6 +37,29 @@ export default function QuizHomeScreen({ navigation }) {
           <Text style={s.levelTitle}>심화 (어려움)</Text>
           <Text style={s.levelDesc}>세부 사실과 비교·구별 위주 · {advancedCount}문제 중 10문제</Text>
         </TouchableOpacity>
+
+        <Text style={s.sectionLabel}>⏱ 실전 모의고사</Text>
+        <Text style={s.sectionDesc}>
+          실제 시험처럼 시대 비중({MOCK_EXAM_TOTAL}문항)에 맞춰 문제가 구성되고, 제한 시간이 흐릅니다.
+        </Text>
+        <View style={s.mockRow}>
+          <TouchableOpacity
+            style={[s.mockCard, s.mockBasic]}
+            activeOpacity={0.85}
+            onPress={() => navigation.navigate('Quiz', { level: '기본', mode: 'mock' })}
+          >
+            <Text style={s.mockTitle}>기본 모의고사</Text>
+            <Text style={s.mockDesc}>{MOCK_EXAM_MINUTES['기본']}분 · {MOCK_EXAM_TOTAL}문항</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[s.mockCard, s.mockAdvanced]}
+            activeOpacity={0.85}
+            onPress={() => navigation.navigate('Quiz', { level: '심화', mode: 'mock' })}
+          >
+            <Text style={s.mockTitle}>심화 모의고사</Text>
+            <Text style={s.mockDesc}>{MOCK_EXAM_MINUTES['심화']}분 · {MOCK_EXAM_TOTAL}문항</Text>
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity
           style={s.wrongNoteCard}
@@ -82,6 +105,15 @@ const s = StyleSheet.create({
   advancedCard: { backgroundColor: '#a83c32' },
   levelTitle: { fontSize: 22, fontWeight: '800', color: '#fff8ee' },
   levelDesc: { fontSize: 14, color: '#f3ecdc', marginTop: 6 },
+
+  sectionLabel: { fontSize: 18, fontWeight: '800', color: '#2b2118', marginTop: 6, marginBottom: 4 },
+  sectionDesc: { fontSize: 13, color: '#7a6f5d', marginBottom: 12, lineHeight: 19 },
+  mockRow: { flexDirection: 'row', gap: 12, marginBottom: 20 },
+  mockCard: { flex: 1, borderRadius: 16, padding: 16 },
+  mockBasic: { backgroundColor: '#3d6b4a' },
+  mockAdvanced: { backgroundColor: '#7a2c24' },
+  mockTitle: { fontSize: 17, fontWeight: '800', color: '#fff8ee' },
+  mockDesc: { fontSize: 13, color: '#f3ecdc', marginTop: 6 },
 
   wrongNoteCard: {
     backgroundColor: '#faf6ec',
