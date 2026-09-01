@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "한국사 한입",
+    "name": "한국사",
+    "description": "한국사 한입 — 하루 한 조각, 듣고 배우는 한국사",
     "slug": "khistory",
     "version": "1.0.0",
     "orientation": "portrait",
