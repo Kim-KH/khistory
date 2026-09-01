@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { View, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import AppText from '../components/AppText';
 import { buildQuizSet, buildMockExam, getQuestionsByIds, MOCK_EXAM_MINUTES } from '../content/quizRegistry';
 import { useWrongAnswers } from '../content/useWrongAnswers';
 import { getTopic, findKing } from '../content/registry';
@@ -17,14 +18,14 @@ function RelatedContentLinks({ question, navigation }) {
 
   return (
     <View style={s.relatedBox}>
-      <Text style={s.relatedTitle}>📖 관련 내용 보기</Text>
+      <AppText style={s.relatedTitle}>📖 관련 내용 보기</AppText>
       {topics.map((t) => (
         <TouchableOpacity
           key={t.id}
           style={s.relatedBtn}
           onPress={() => navigation.navigate('TopicDetail', { id: t.id })}
         >
-          <Text style={s.relatedBtnText}>{t.title}</Text>
+          <AppText style={s.relatedBtnText}>{t.title}</AppText>
         </TouchableOpacity>
       ))}
       {kings.map((k) => (
@@ -33,7 +34,7 @@ function RelatedContentLinks({ question, navigation }) {
           style={s.relatedBtn}
           onPress={() => navigation.navigate('KingDetail', { dynasty: k.dynasty, order: k.order })}
         >
-          <Text style={s.relatedBtnText}>{k.king.name}</Text>
+          <AppText style={s.relatedBtnText}>{k.king.name}</AppText>
         </TouchableOpacity>
       ))}
     </View>
@@ -85,9 +86,9 @@ export default function QuizScreen({ route, navigation }) {
     return (
       <SafeAreaView style={s.safe}>
         <View style={s.emptyWrap}>
-          <Text style={s.emptyText}>풀 수 있는 문제가 없습니다.</Text>
+          <AppText style={s.emptyText}>풀 수 있는 문제가 없습니다.</AppText>
           <TouchableOpacity style={s.emptyBtn} onPress={() => navigation.goBack()}>
-            <Text style={s.emptyBtnText}>돌아가기</Text>
+            <AppText style={s.emptyBtnText}>돌아가기</AppText>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -124,19 +125,19 @@ export default function QuizScreen({ route, navigation }) {
           onPress={() => navigation.goBack()}
           style={s.backBtn}
         >
-          <Text style={s.backText}>← 그만하기</Text>
+          <AppText style={s.backText}>← 그만하기</AppText>
         </TouchableOpacity>
-        <Text style={s.progress}>{index + 1} / {questions.length}</Text>
+        <AppText style={s.progress}>{index + 1} / {questions.length}</AppText>
         {isMock && secondsLeft !== null && (
-          <Text style={[s.timer, secondsLeft <= 300 && s.timerUrgent]}>
+          <AppText style={[s.timer, secondsLeft <= 300 && s.timerUrgent]}>
             ⏱ {String(Math.floor(secondsLeft / 60)).padStart(2, '0')}:{String(secondsLeft % 60).padStart(2, '0')}
-          </Text>
+          </AppText>
         )}
       </View>
 
       <ScrollView contentContainerStyle={s.scroll}>
-        {current.level ? <Text style={s.levelTag}>{current.level}</Text> : null}
-        <Text style={s.question}>{current.question}</Text>
+        {current.level ? <AppText style={s.levelTag}>{current.level}</AppText> : null}
+        <AppText style={s.question}>{current.question}</AppText>
 
         {current.choices.map((choice, i) => {
           const isSelected = selected === i;
@@ -154,7 +155,7 @@ export default function QuizScreen({ route, navigation }) {
               onPress={() => selectChoice(i)}
               disabled={selected !== null}
             >
-              <Text
+              <AppText
                 style={[
                   s.choiceText,
                   showState && isAnswer && s.choiceTextOnColor,
@@ -162,17 +163,17 @@ export default function QuizScreen({ route, navigation }) {
                 ]}
               >
                 {i + 1}. {choice}
-              </Text>
+              </AppText>
             </TouchableOpacity>
           );
         })}
 
         {selected !== null && (
           <View style={s.explainBox}>
-            <Text style={s.explainLabel}>
+            <AppText style={s.explainLabel}>
               {selected === current.answerIndex ? '✅ 정답입니다' : '❌ 오답입니다'}
-            </Text>
-            <Text style={s.explainText}>{current.explanation}</Text>
+            </AppText>
+            <AppText style={s.explainText}>{current.explanation}</AppText>
           </View>
         )}
 
@@ -180,7 +181,7 @@ export default function QuizScreen({ route, navigation }) {
 
         {selected !== null && (
           <TouchableOpacity style={s.nextBtn} onPress={next}>
-            <Text style={s.nextBtnText}>{isLast ? '결과 보기' : '다음 문제'}</Text>
+            <AppText style={s.nextBtnText}>{isLast ? '결과 보기' : '다음 문제'}</AppText>
           </TouchableOpacity>
         )}
       </ScrollView>
@@ -192,12 +193,10 @@ const s = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: '#f3ecdc',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 },
   header: {
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    paddingHorizontal: 20, paddingTop: 12, paddingBottom: 8,
-  },
+    paddingHorizontal: 20, paddingTop: 12, paddingBottom: 8 },
   backBtn: { paddingVertical: 8, paddingHorizontal: 4 },
   backText: { fontSize: 16, fontWeight: '700', color: '#a8471f' },
   progress: { fontSize: 16, fontWeight: '700', color: '#7a6f5d' },
@@ -208,8 +207,7 @@ const s = StyleSheet.create({
   levelTag: {
     alignSelf: 'flex-start', fontSize: 13, fontWeight: '700', color: '#fff8ee',
     backgroundColor: '#b8912f', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 10,
-    marginBottom: 14, overflow: 'hidden',
-  },
+    marginBottom: 14, overflow: 'hidden' },
   question: { fontSize: 21, fontWeight: '700', color: '#2b2118', lineHeight: 30, marginBottom: 22 },
 
   choice: {
@@ -218,8 +216,7 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e2d6bc',
     padding: 16,
-    marginBottom: 12,
-  },
+    marginBottom: 12 },
   choiceCorrect: { backgroundColor: '#4a7c59', borderColor: '#4a7c59' },
   choiceWrong: { backgroundColor: '#a83c32', borderColor: '#a83c32' },
   choiceText: { fontSize: 17, color: '#2b2118', lineHeight: 24 },
@@ -229,8 +226,7 @@ const s = StyleSheet.create({
     backgroundColor: '#efe4cc',
     borderRadius: 14,
     padding: 18,
-    marginTop: 8,
-  },
+    marginTop: 8 },
   explainLabel: { fontSize: 16, fontWeight: '800', color: '#2b2118', marginBottom: 8 },
   explainText: { fontSize: 16, color: '#5a5142', lineHeight: 24 },
 
@@ -243,18 +239,15 @@ const s = StyleSheet.create({
     borderColor: '#b8912f',
     paddingVertical: 12,
     paddingHorizontal: 16,
-    marginBottom: 8,
-  },
+    marginBottom: 8 },
   relatedBtnText: { fontSize: 15, fontWeight: '700', color: '#b8912f' },
 
   nextBtn: {
     backgroundColor: '#a83c32', borderRadius: 14,
-    paddingVertical: 16, alignItems: 'center', marginTop: 20,
-  },
+    paddingVertical: 16, alignItems: 'center', marginTop: 20 },
   nextBtnText: { color: '#fff8ee', fontSize: 17, fontWeight: '700' },
 
   emptyWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
   emptyText: { fontSize: 17, color: '#5a5142', marginBottom: 16 },
   emptyBtn: { backgroundColor: '#a83c32', borderRadius: 14, paddingVertical: 12, paddingHorizontal: 24 },
-  emptyBtnText: { color: '#fff8ee', fontSize: 16, fontWeight: '700' },
-});
+  emptyBtnText: { color: '#fff8ee', fontSize: 16, fontWeight: '700' } });

@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { View, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import AppText from '../components/AppText';
 import { getTopic, findKing } from '../content/registry';
 
 function RelatedContentLinks({ question, navigation }) {
@@ -20,7 +21,7 @@ function RelatedContentLinks({ question, navigation }) {
           style={s.relatedChip}
           onPress={() => navigation.navigate('TopicDetail', { id: t.id })}
         >
-          <Text style={s.relatedChipText}>📖 {t.title}</Text>
+          <AppText style={s.relatedChipText}>📖 {t.title}</AppText>
         </TouchableOpacity>
       ))}
       {kings.map((k) => (
@@ -29,7 +30,7 @@ function RelatedContentLinks({ question, navigation }) {
           style={s.relatedChip}
           onPress={() => navigation.navigate('KingDetail', { dynasty: k.dynasty, order: k.order })}
         >
-          <Text style={s.relatedChipText}>📖 {k.king.name}</Text>
+          <AppText style={s.relatedChipText}>📖 {k.king.name}</AppText>
         </TouchableOpacity>
       ))}
     </View>
@@ -47,20 +48,20 @@ export default function QuizResultScreen({ route, navigation }) {
   return (
     <SafeAreaView style={s.safe}>
       <ScrollView contentContainerStyle={s.scroll}>
-        <Text style={s.badge}>{badgeLabel} 결과</Text>
-        {timeUp && <Text style={s.timeUpNote}>⏱ 제한 시간이 끝나 자동으로 제출됐어요.</Text>}
-        <Text style={s.scoreBig}>{correctCount} / {total}</Text>
-        <Text style={s.scorePercent}>{percent}점</Text>
+        <AppText style={s.badge}>{badgeLabel} 결과</AppText>
+        {timeUp && <AppText style={s.timeUpNote}>⏱ 제한 시간이 끝나 자동으로 제출됐어요.</AppText>}
+        <AppText style={s.scoreBig}>{correctCount} / {total}</AppText>
+        <AppText style={s.scorePercent}>{percent}점</AppText>
 
-        <Text style={s.sectionTitle}>문제별 결과</Text>
+        <AppText style={s.sectionTitle}>문제별 결과</AppText>
         {results.map((r, i) => (
           <View key={r.question.id} style={[s.resultCard, r.correct ? s.resultCorrect : s.resultWrong]}>
-            <Text style={s.resultIndex}>{i + 1}. {r.correct ? '✅ 정답' : '❌ 오답'}</Text>
-            <Text style={s.resultQuestion}>{r.question.question}</Text>
+            <AppText style={s.resultIndex}>{i + 1}. {r.correct ? '✅ 정답' : '❌ 오답'}</AppText>
+            <AppText style={s.resultQuestion}>{r.question.question}</AppText>
             {!r.correct && (
-              <Text style={s.resultAnswer}>
+              <AppText style={s.resultAnswer}>
                 정답: {r.question.answerIndex + 1}. {r.question.choices[r.question.answerIndex]}
-              </Text>
+              </AppText>
             )}
             <RelatedContentLinks question={r.question} navigation={navigation} />
           </View>
@@ -71,7 +72,7 @@ export default function QuizResultScreen({ route, navigation }) {
             style={s.btnSecondary}
             onPress={() => navigation.navigate('QuizHome')}
           >
-            <Text style={s.btnSecondaryText}>문제풀이 홈으로</Text>
+            <AppText style={s.btnSecondaryText}>문제풀이 홈으로</AppText>
           </TouchableOpacity>
           <TouchableOpacity
             style={s.btnPrimary}
@@ -85,7 +86,7 @@ export default function QuizResultScreen({ route, navigation }) {
               }
             }}
           >
-            <Text style={s.btnPrimaryText}>다시 풀기</Text>
+            <AppText style={s.btnPrimaryText}>다시 풀기</AppText>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -97,8 +98,7 @@ const s = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: '#f3ecdc',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 },
   scroll: { padding: 24, paddingBottom: 56 },
   badge: { fontSize: 15, fontWeight: '700', color: '#a83c32', marginBottom: 12 },
   timeUpNote: { fontSize: 14, fontWeight: '700', color: '#a83c32', marginBottom: 8 },
@@ -111,8 +111,7 @@ const s = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 1,
     padding: 16,
-    marginBottom: 10,
-  },
+    marginBottom: 10 },
   resultCorrect: { backgroundColor: '#eef4ee', borderColor: '#c7dcc9' },
   resultWrong: { backgroundColor: '#f8ece9', borderColor: '#e6bdb3' },
   resultIndex: { fontSize: 14, fontWeight: '700', color: '#5a5142', marginBottom: 6 },
@@ -126,13 +125,11 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#b8912f',
     paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
+    paddingHorizontal: 12 },
   relatedChipText: { fontSize: 13, fontWeight: '700', color: '#b8912f' },
 
   btnRow: { flexDirection: 'row', gap: 12, marginTop: 20 },
   btnPrimary: { flex: 1, backgroundColor: '#a83c32', borderRadius: 14, paddingVertical: 16, alignItems: 'center' },
   btnPrimaryText: { color: '#fff8ee', fontSize: 16, fontWeight: '700' },
   btnSecondary: { flex: 1, backgroundColor: '#efe4cc', borderRadius: 14, paddingVertical: 16, alignItems: 'center' },
-  btnSecondaryText: { color: '#8a7550', fontSize: 16, fontWeight: '700' },
-});
+  btnSecondaryText: { color: '#8a7550', fontSize: 16, fontWeight: '700' } });

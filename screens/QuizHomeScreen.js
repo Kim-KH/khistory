@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { View, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import AppText from '../components/AppText';
 import { getCountByLevel, getTotalCount, MOCK_EXAM_TOTAL, MOCK_EXAM_MINUTES } from '../content/quizRegistry';
 import { useWrongAnswers } from '../content/useWrongAnswers';
 
@@ -11,22 +12,22 @@ export default function QuizHomeScreen({ navigation }) {
     <SafeAreaView style={s.safe}>
       <View style={s.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={s.backBtn}>
-          <Text style={s.backText}>← 홈</Text>
+          <AppText style={s.backText}>← 홈</AppText>
         </TouchableOpacity>
       </View>
 
       <ScrollView contentContainerStyle={s.scroll}>
-        <Text style={s.badge}>📝 문제풀이</Text>
-        <Text style={s.title}>한국사능력검정시험 대비</Text>
-        <Text style={s.subtitle}>총 {getTotalCount()}문제 · 기출 유형을 반영한 예상문제</Text>
+        <AppText style={s.badge}>📝 문제풀이</AppText>
+        <AppText style={s.title}>한국사능력검정시험 대비</AppText>
+        <AppText style={s.subtitle}>총 {getTotalCount()}문제 · 기출 유형을 반영한 예상문제</AppText>
 
         <TouchableOpacity
           style={[s.levelCard, s.basicCard]}
           activeOpacity={0.85}
           onPress={() => navigation.navigate('Quiz', { level: '기본' })}
         >
-          <Text style={s.levelTitle}>기본 (쉬움)</Text>
-          <Text style={s.levelDesc}>널리 알려진 핵심 사실 위주 · {basicCount}문제 중 10문제</Text>
+          <AppText style={s.levelTitle}>기본 (쉬움)</AppText>
+          <AppText style={s.levelDesc}>널리 알려진 핵심 사실 위주 · {basicCount}문제 중 10문제</AppText>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -34,30 +35,30 @@ export default function QuizHomeScreen({ navigation }) {
           activeOpacity={0.85}
           onPress={() => navigation.navigate('Quiz', { level: '심화' })}
         >
-          <Text style={s.levelTitle}>심화 (어려움)</Text>
-          <Text style={s.levelDesc}>세부 사실과 비교·구별 위주 · {advancedCount}문제 중 10문제</Text>
+          <AppText style={s.levelTitle}>심화 (어려움)</AppText>
+          <AppText style={s.levelDesc}>세부 사실과 비교·구별 위주 · {advancedCount}문제 중 10문제</AppText>
         </TouchableOpacity>
 
-        <Text style={s.sectionLabel}>⏱ 실전 모의고사</Text>
-        <Text style={s.sectionDesc}>
+        <AppText style={s.sectionLabel}>⏱ 실전 모의고사</AppText>
+        <AppText style={s.sectionDesc}>
           실제 시험처럼 시대 비중({MOCK_EXAM_TOTAL}문항)에 맞춰 문제가 구성되고, 제한 시간이 흐릅니다.
-        </Text>
+        </AppText>
         <View style={s.mockRow}>
           <TouchableOpacity
             style={[s.mockCard, s.mockBasic]}
             activeOpacity={0.85}
             onPress={() => navigation.navigate('Quiz', { level: '기본', mode: 'mock' })}
           >
-            <Text style={s.mockTitle}>기본 모의고사</Text>
-            <Text style={s.mockDesc}>{MOCK_EXAM_MINUTES['기본']}분 · {MOCK_EXAM_TOTAL}문항</Text>
+            <AppText style={s.mockTitle}>기본 모의고사</AppText>
+            <AppText style={s.mockDesc}>{MOCK_EXAM_MINUTES['기본']}분 · {MOCK_EXAM_TOTAL}문항</AppText>
           </TouchableOpacity>
           <TouchableOpacity
             style={[s.mockCard, s.mockAdvanced]}
             activeOpacity={0.85}
             onPress={() => navigation.navigate('Quiz', { level: '심화', mode: 'mock' })}
           >
-            <Text style={s.mockTitle}>심화 모의고사</Text>
-            <Text style={s.mockDesc}>{MOCK_EXAM_MINUTES['심화']}분 · {MOCK_EXAM_TOTAL}문항</Text>
+            <AppText style={s.mockTitle}>심화 모의고사</AppText>
+            <AppText style={s.mockDesc}>{MOCK_EXAM_MINUTES['심화']}분 · {MOCK_EXAM_TOTAL}문항</AppText>
           </TouchableOpacity>
         </View>
 
@@ -67,14 +68,14 @@ export default function QuizHomeScreen({ navigation }) {
           disabled={!loaded || wrongIds.length === 0}
           onPress={() => navigation.navigate('Quiz', { mode: 'wrong' })}
         >
-          <Text style={s.wrongNoteTitle}>📌 오답노트</Text>
-          <Text style={s.wrongNoteDesc}>
+          <AppText style={s.wrongNoteTitle}>📌 오답노트</AppText>
+          <AppText style={s.wrongNoteDesc}>
             {!loaded
               ? '불러오는 중...'
               : wrongIds.length === 0
               ? '아직 틀린 문제가 없어요. 문제를 풀어보세요!'
               : `틀렸던 문제 ${wrongIds.length}개 다시 풀기`}
-          </Text>
+          </AppText>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
@@ -85,8 +86,7 @@ const s = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: '#f3ecdc',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 },
   header: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 8 },
   backBtn: { paddingVertical: 8, paddingHorizontal: 4, alignSelf: 'flex-start' },
   backText: { fontSize: 17, fontWeight: '700', color: '#a8471f' },
@@ -99,8 +99,7 @@ const s = StyleSheet.create({
   levelCard: {
     borderRadius: 16,
     padding: 20,
-    marginBottom: 14,
-  },
+    marginBottom: 14 },
   basicCard: { backgroundColor: '#4a7c59' },
   advancedCard: { backgroundColor: '#a83c32' },
   levelTitle: { fontSize: 22, fontWeight: '800', color: '#fff8ee' },
@@ -121,8 +120,6 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e2d6bc',
     padding: 20,
-    marginTop: 10,
-  },
+    marginTop: 10 },
   wrongNoteTitle: { fontSize: 20, fontWeight: '800', color: '#b8912f' },
-  wrongNoteDesc: { fontSize: 14, color: '#7a6f5d', marginTop: 6 },
-});
+  wrongNoteDesc: { fontSize: 14, color: '#7a6f5d', marginTop: 6 } });

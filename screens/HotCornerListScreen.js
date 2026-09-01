@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { View, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import AppText from '../components/AppText';
 import { useHotCornerItems } from '../content/useHotCorner';
 
 function itemTitle(item) {
@@ -15,7 +16,7 @@ export default function HotCornerListScreen({ navigation }) {
     <SafeAreaView style={s.safe}>
       <View style={s.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={s.backBtn}>
-          <Text style={s.backText}>← 홈</Text>
+          <AppText style={s.backText}>← 홈</AppText>
         </TouchableOpacity>
       </View>
 
@@ -25,15 +26,15 @@ export default function HotCornerListScreen({ navigation }) {
         contentContainerStyle={s.listContent}
         ListHeaderComponent={
           <>
-            <Text style={s.badge}>🔥 핫코너</Text>
-            <Text style={s.pageTitle}>요즘 화제와 역사</Text>
-            <Text style={s.pageSub}>
+            <AppText style={s.badge}>🔥 핫코너</AppText>
+            <AppText style={s.pageTitle}>요즘 화제와 역사</AppText>
+            <AppText style={s.pageSub}>
               {loading
                 ? '최신 내용을 불러오는 중...'
                 : source === 'local'
                 ? '오프라인 상태라 마지막으로 저장된 내용을 보여드려요.'
                 : `${items.length}개의 이야기`}
-            </Text>
+            </AppText>
           </>
         }
         renderItem={({ item }) => (
@@ -42,10 +43,10 @@ export default function HotCornerListScreen({ navigation }) {
             activeOpacity={0.85}
             onPress={() => navigation.navigate('HotCornerDetail', { item })}
           >
-            <Text style={s.cardDate}>{item.addedDate}</Text>
-            <Text style={s.cardTitle}>{itemTitle(item)}</Text>
-            <Text style={s.cardTrigger} numberOfLines={2}>{item.trigger}</Text>
-            <Text style={s.cardSummary} numberOfLines={2}>{itemSummary(item)}</Text>
+            <AppText style={s.cardDate}>{item.addedDate}</AppText>
+            <AppText style={s.cardTitle}>{itemTitle(item)}</AppText>
+            <AppText style={s.cardTrigger} numberOfLines={2}>{item.trigger}</AppText>
+            <AppText style={s.cardSummary} numberOfLines={2}>{itemSummary(item)}</AppText>
           </TouchableOpacity>
         )}
       />
@@ -57,8 +58,7 @@ const s = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: '#f3ecdc',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 },
   header: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 8 },
   backBtn: { paddingVertical: 8, paddingHorizontal: 4, alignSelf: 'flex-start' },
   backText: { fontSize: 17, fontWeight: '700', color: '#a8471f' },
@@ -74,10 +74,8 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e2d6bc',
     padding: 18,
-    marginBottom: 14,
-  },
+    marginBottom: 14 },
   cardDate: { fontSize: 13, fontWeight: '700', color: '#b8912f', marginBottom: 6 },
   cardTitle: { fontSize: 21, fontWeight: '800', color: '#2b2118', lineHeight: 28 },
   cardTrigger: { fontSize: 14, color: '#a8471f', marginTop: 8, lineHeight: 20 },
-  cardSummary: { fontSize: 15, color: '#5a5142', marginTop: 8, lineHeight: 22 },
-});
+  cardSummary: { fontSize: 15, color: '#5a5142', marginTop: 8, lineHeight: 22 } });

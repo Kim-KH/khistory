@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { View, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import AppText from '../components/AppText';
 import { getDynasty, starsFor } from '../content/registry';
 
 export default function DynastyScreen({ route, navigation }) {
@@ -8,7 +9,7 @@ export default function DynastyScreen({ route, navigation }) {
   if (!dynastyInfo) {
     return (
       <SafeAreaView style={s.safe}>
-        <Text style={s.notFound}>왕조 정보를 찾을 수 없습니다.</Text>
+        <AppText style={s.notFound}>왕조 정보를 찾을 수 없습니다.</AppText>
       </SafeAreaView>
     );
   }
@@ -24,17 +25,17 @@ export default function DynastyScreen({ route, navigation }) {
         ListHeaderComponent={
           <>
             <TouchableOpacity onPress={() => navigation.goBack()} style={s.backBtn}>
-              <Text style={s.backText}>← 시대 목록</Text>
+              <AppText style={s.backText}>← 시대 목록</AppText>
             </TouchableOpacity>
-            <Text style={s.title}>{dynastyInfo.title}</Text>
-            <Text style={s.period}>{periodOverride || dynastyInfo.period} · {kings.length}왕</Text>
+            <AppText style={s.title}>{dynastyInfo.title}</AppText>
+            <AppText style={s.period}>{periodOverride || dynastyInfo.period} · {kings.length}왕</AppText>
             {crossLink && (
               <TouchableOpacity
                 style={s.crossLink}
                 onPress={() => navigation.navigate('Group', { group: crossLink.group })}
                 activeOpacity={0.7}
               >
-                <Text style={s.crossLinkText}>{crossLink.label} →</Text>
+                <AppText style={s.crossLinkText}>{crossLink.label} →</AppText>
               </TouchableOpacity>
             )}
           </>
@@ -46,18 +47,18 @@ export default function DynastyScreen({ route, navigation }) {
             activeOpacity={0.7}
           >
             <View style={s.orderBadge}>
-              <Text style={s.orderText}>{typeof item.order === 'number' ? item.order : '·'}</Text>
+              <AppText style={s.orderText}>{typeof item.order === 'number' ? item.order : '·'}</AppText>
             </View>
             <View style={s.kingInfo}>
               <View style={s.nameRow}>
-                <Text style={s.kingName}>{item.name}</Text>
-                {item.importance ? <Text style={s.stars}>{starsFor(item.importance)}</Text> : null}
+                <AppText style={s.kingName}>{item.name}</AppText>
+                {item.importance ? <AppText style={s.stars}>{starsFor(item.importance)}</AppText> : null}
               </View>
               <View style={s.metaRow}>
-                <Text style={s.kingYears}>{item.reignStart} ~ {item.reignEnd}</Text>
-                {item.keyword ? <Text style={s.keywordTag}>{item.keyword}</Text> : null}
+                <AppText style={s.kingYears}>{item.reignStart} ~ {item.reignEnd}</AppText>
+                {item.keyword ? <AppText style={s.keywordTag}>{item.keyword}</AppText> : null}
               </View>
-              <Text style={s.kingOneLiner} numberOfLines={2}>{item.oneLiner}</Text>
+              <AppText style={s.kingOneLiner} numberOfLines={2}>{item.oneLiner}</AppText>
             </View>
           </TouchableOpacity>
         )}
@@ -70,8 +71,7 @@ const s = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: '#f3ecdc',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 },
   notFound: { fontSize: 18, color: '#2b2118', padding: 24 },
   listContent: { padding: 20, paddingBottom: 48 },
 
@@ -83,8 +83,7 @@ const s = StyleSheet.create({
   crossLink: {
     backgroundColor: '#efe4cc', borderRadius: 10,
     paddingVertical: 10, paddingHorizontal: 14,
-    marginBottom: 20, alignSelf: 'flex-start',
-  },
+    marginBottom: 20, alignSelf: 'flex-start' },
   crossLinkText: { fontSize: 14, color: '#a8471f', fontWeight: '700' },
 
   kingRow: {
@@ -96,14 +95,12 @@ const s = StyleSheet.create({
     borderColor: '#e2d6bc',
     padding: 16,
     marginBottom: 10,
-    gap: 14,
-  },
+    gap: 14 },
   orderBadge: {
     width: 36, height: 36, borderRadius: 18,
     backgroundColor: '#b8912f',
     alignItems: 'center', justifyContent: 'center',
-    flexShrink: 0,
-  },
+    flexShrink: 0 },
   orderText: { color: '#fff8ee', fontWeight: '800', fontSize: 16 },
   kingInfo: { flex: 1 },
   nameRow: { flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' },
@@ -113,7 +110,5 @@ const s = StyleSheet.create({
   kingYears: { fontSize: 14, color: '#a8471f', fontWeight: '600' },
   keywordTag: {
     fontSize: 12, color: '#8a7550', backgroundColor: '#efe4cc',
-    paddingHorizontal: 8, paddingVertical: 2, borderRadius: 8, overflow: 'hidden',
-  },
-  kingOneLiner: { fontSize: 15, color: '#5a5142', marginTop: 6, lineHeight: 21 },
-});
+    paddingHorizontal: 8, paddingVertical: 2, borderRadius: 8, overflow: 'hidden' },
+  kingOneLiner: { fontSize: 15, color: '#5a5142', marginTop: 6, lineHeight: 21 } });

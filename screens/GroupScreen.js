@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { View, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import AppText from '../components/AppText';
 import { getGroup, getDynasty, resolveChild } from '../content/registry';
 
 export default function GroupScreen({ route, navigation }) {
@@ -8,7 +9,7 @@ export default function GroupScreen({ route, navigation }) {
   if (!groupInfo) {
     return (
       <SafeAreaView style={s.safe}>
-        <Text style={s.notFound}>카테고리를 찾을 수 없습니다.</Text>
+        <AppText style={s.notFound}>카테고리를 찾을 수 없습니다.</AppText>
       </SafeAreaView>
     );
   }
@@ -23,8 +24,7 @@ export default function GroupScreen({ route, navigation }) {
         ...child,
         title: dynasty.title,
         period: child.periodOverride || dynasty.period,
-        count: kings.length,
-      };
+        count: kings.length };
     })
     .filter(Boolean);
 
@@ -37,11 +37,11 @@ export default function GroupScreen({ route, navigation }) {
         ListHeaderComponent={
           <>
             <TouchableOpacity onPress={() => navigation.goBack()} style={s.backBtn}>
-              <Text style={s.backText}>← 시대 목록</Text>
+              <AppText style={s.backText}>← 시대 목록</AppText>
             </TouchableOpacity>
-            <Text style={s.title}>{groupInfo.title}</Text>
-            <Text style={s.period}>{groupInfo.period}</Text>
-            <Text style={s.hint}>나라를 선택하세요</Text>
+            <AppText style={s.title}>{groupInfo.title}</AppText>
+            <AppText style={s.period}>{groupInfo.period}</AppText>
+            <AppText style={s.hint}>나라를 선택하세요</AppText>
           </>
         }
         renderItem={({ item }) => (
@@ -52,20 +52,19 @@ export default function GroupScreen({ route, navigation }) {
                 dynasty: item.key,
                 from: item.from,
                 periodOverride: item.periodOverride,
-                crossLink: item.crossLink,
-              })
+                crossLink: item.crossLink })
             }
             activeOpacity={0.85}
           >
             <View style={s.textWrap}>
-              <Text style={s.cardTitle}>{item.title}</Text>
-              <Text style={s.cardPeriod}>{item.period}</Text>
+              <AppText style={s.cardTitle}>{item.title}</AppText>
+              <AppText style={s.cardPeriod}>{item.period}</AppText>
             </View>
             <View style={s.countBadge}>
-              <Text style={s.countNum}>{item.count}</Text>
-              <Text style={s.countLabel}>왕</Text>
+              <AppText style={s.countNum}>{item.count}</AppText>
+              <AppText style={s.countLabel}>왕</AppText>
             </View>
-            <Text style={s.arrow}>›</Text>
+            <AppText style={s.arrow}>›</AppText>
           </TouchableOpacity>
         )}
       />
@@ -77,8 +76,7 @@ const s = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: '#f3ecdc',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 },
   notFound: { fontSize: 18, color: '#2b2118', padding: 24 },
   listContent: { padding: 20, paddingBottom: 48 },
 
@@ -98,17 +96,14 @@ const s = StyleSheet.create({
     borderColor: '#e2d6bc',
     padding: 20,
     marginBottom: 12,
-    gap: 14,
-  },
+    gap: 14 },
   textWrap: { flex: 1 },
   cardTitle: { fontSize: 23, fontWeight: '800', color: '#2b2118' },
   cardPeriod: { fontSize: 15, color: '#a8471f', fontWeight: '600', marginTop: 4 },
   countBadge: {
     alignItems: 'center', justifyContent: 'center',
     backgroundColor: '#b8912f', borderRadius: 14,
-    width: 52, height: 52,
-  },
+    width: 52, height: 52 },
   countNum: { color: '#fff8ee', fontWeight: '800', fontSize: 18, lineHeight: 22 },
   countLabel: { color: '#fff8ee', fontSize: 11, marginTop: -2 },
-  arrow: { fontSize: 26, color: '#c7ba98', fontWeight: '700' },
-});
+  arrow: { fontSize: 26, color: '#c7ba98', fontWeight: '700' } });
