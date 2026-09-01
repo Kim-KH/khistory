@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { View, TextInput, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
 import AppText from '../components/AppText';
-import { CATALOG, TOPIC_CATEGORIES, getTopicsByCategory, searchEverything, starsFor } from '../content/registry';
+import { CATALOG, TOPIC_CATEGORIES, getTopicsByCategory, searchEverything, starsFor, getGroupTotalKingCount } from '../content/registry';
 import { useHotCornerItems } from '../content/useHotCorner';
 
 export default function HomeScreen({ navigation }) {
@@ -194,6 +194,12 @@ export default function HomeScreen({ navigation }) {
               {item.type === 'dynasty' && (
                 <View style={s.dynastyCountBadge}>
                   <AppText style={s.dynastyCountNum}>{item.data.kings.length}</AppText>
+                  <AppText style={s.dynastyCountLabel}>왕</AppText>
+                </View>
+              )}
+              {item.type === 'group' && (
+                <View style={s.dynastyCountBadge}>
+                  <AppText style={s.dynastyCountNum}>{getGroupTotalKingCount(item)}</AppText>
                   <AppText style={s.dynastyCountLabel}>왕</AppText>
                 </View>
               )}

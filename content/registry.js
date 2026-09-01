@@ -81,6 +81,21 @@ export function resolveChild(child) {
   return typeof child === 'string' ? { key: child } : child;
 }
 
+// 그룹(삼국시대 등)에 속한 모든 나라의 왕을 합친 총 인원수 — 신라처럼 여러 그룹이
+// 같은 왕조 데이터를 부분적으로(from 이후만) 재사용하는 경우도 정확히 반영한다.
+export function getGroupTotalKingCount(group) {
+  return group.children.reduce((sum, child) => {
+    const resolved = resolveChild(child);
+    const dynasty = getDynasty(resolved.key);
+    if (!dynasty) return sum;
+    const kings = dynasty.data.kings;
+    const count = resolved.from
+      ? kings.filter((k) => typeof k.order === 'number' && k.order >= resolved.from).length
+      : kings.length;
+    return sum + count;
+  }, 0);
+}
+
 // 시험/교과서 비중 별점 표시 — importance 필드가 없는 왕(계보상 존재)은 빈 문자열 반환.
 // 이모지 별(⭐)은 항상 노란색으로 고정 렌더링되어 글자색 지정이 안 먹기 때문에,
 // 색 지정이 가능한 기호(★, U+2605)를 쓴다 — 실제 색은 각 화면에서 지정.
